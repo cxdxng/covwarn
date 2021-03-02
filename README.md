@@ -1,6 +1,6 @@
 # covwarn
 
-A new Flutter project.
+A better COVID-19 App
 
 ## Getting Started
 
