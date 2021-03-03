@@ -46,25 +46,23 @@ class _UIState extends State<UI> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Risiko niedrig",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 40,
-                                      color: Colors.white),
-                                ),
-                                Icon(
-                                  Icons.info_sharp,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Risiko niedrig",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 40,
+                                    color: Colors.white),
+                              ),
+                              Icon(
+                                Icons.info_sharp,
+                                color: Colors.white,
+                              ),
+                            ],
                           ),
+                          SizedBox(height:40),
                           createTextWithIcon(Icons.coronavirus_sharp,
                               "Keine Begegnungen (24 Std.)"),
                           Divider(
@@ -111,6 +109,8 @@ class _UIState extends State<UI> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
+                            
+
                             Icon(
                               Icons.remove_red_eye_sharp,
                               color: Colors.white,
@@ -118,7 +118,7 @@ class _UIState extends State<UI> {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 40,
                         ),
                         createTextWithIcon(Icons.accessibility_new_rounded,
                             "7-tage Inzidenz: 63"),
@@ -128,7 +128,15 @@ class _UIState extends State<UI> {
                           thickness: 1,
                         ),
                         createTextWithImageIcon(
-                            "assets/death.png", "Gestorben: 2000"),
+                            "assets/death.png", "Gestorben: 2.000"),
+                        Divider(
+                          height: 40,
+                          color: Colors.grey[900],
+                          thickness: 1,
+                        ),
+
+                        createTextWithImageIcon(
+                            "assets/syringe.png", "Impfungen: 18.000"),
                       ],
                     ),
                   ),
