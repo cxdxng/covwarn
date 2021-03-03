@@ -1,9 +1,11 @@
+import 'package:covwarn/map.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(
       initialRoute: "/",
       routes: {
         "/": (context) => UI(),
+        "/map": (context) => HeatMap(),
       },
     ));
 
@@ -13,12 +15,14 @@ class UI extends StatefulWidget {
 }
 
 class _UIState extends State<UI> {
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     Color noRisk = Color(0xff6BAC66);
     Color slightRisk = Color(0xffF99246);
     Color infection = Color(0xffBF4448);
     String town = "Köln";
+    
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -162,13 +166,34 @@ class _UIState extends State<UI> {
             label: 'About',
           ),
         ],
-        //currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex,
         selectedItemColor: noRisk,
         unselectedItemColor: Colors.white,
-        //onTap: _onItemTapped,
+        onTap: _onItemTapped,
       ),
     );
   }
+
+  void _onItemTapped(int index) {
+    checkAction(index);
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void checkAction(int index){
+    switch(index){
+      case 0:{print("Home");}
+      break;
+
+      case 1:{print("Map");}
+      break;
+
+      case 2:{print("About");}
+      break;
+    }
+  }
+
 
   Widget createTextWithIcon(IconData icon, String text) {
     return Row(
