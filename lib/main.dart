@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(
-  initialRoute: "/",
-  routes: {
-    "/": (context) => UI(),
-  },
-));
+      initialRoute: "/",
+      routes: {
+        "/": (context) => UI(),
+      },
+    ));
 
 class UI extends StatefulWidget {
   @override
@@ -19,8 +18,10 @@ class _UIState extends State<UI> {
     Color noRisk = Color(0xff6BAC66);
     Color slightRisk = Color(0xffF99246);
     Color infection = Color(0xffBF4448);
+    String town = "Köln";
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -29,19 +30,16 @@ class _UIState extends State<UI> {
             children: [
               Text(
                 "Covwarn 2021",
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900
-                ),
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
               ),
-
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Card(
                     color: noRisk,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     margin: EdgeInsets.zero,
                     child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -56,25 +54,82 @@ class _UIState extends State<UI> {
                                 Text(
                                   "Risiko niedrig",
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                    color: Colors.white
-                                  ),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 40,
+                                      color: Colors.white),
                                 ),
-                                Icon(Icons.info_sharp, color: Colors.white,),
+                                Icon(
+                                  Icons.info_sharp,
+                                  color: Colors.white,
+                                ),
                               ],
                             ),
                           ),
-                          
-                          createTextWithIcon(Icons.coronavirus_sharp, "Keine Begegnungen"),
-                          Divider(height: 40,color: Colors.grey[850],thickness: 1,),
-                          createTextWithIcon(Icons.location_on, "Gegend sicher"),
-                          Divider(height: 40,color: Colors.grey[850],thickness: 1,),
-                          createTextWithIcon(Icons.update_sharp, "Aktualisiert: Heute 11:11"),
-
-
+                          createTextWithIcon(Icons.coronavirus_sharp,
+                              "Keine Begegnungen (24 Std.)"),
+                          Divider(
+                            height: 40,
+                            color: Colors.grey[200],
+                            thickness: 1,
+                          ),
+                          createTextWithIcon(
+                              Icons.location_on, "Gegend sicher"),
+                          Divider(
+                            height: 40,
+                            color: Colors.grey[200],
+                            thickness: 1,
+                          ),
+                          createTextWithIcon(
+                              Icons.update_sharp, "Aktualisiert: Heute 11:11"),
                         ],
                       ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Center(
+                child: Card(
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  margin: EdgeInsets.zero,
+                  color: Colors.grey[700],
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Übersicht ($town)",
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                            Icon(
+                              Icons.remove_red_eye_sharp,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        createTextWithIcon(Icons.accessibility_new_rounded,
+                            "7-tage Inzidenz: 63"),
+                        Divider(
+                          height: 40,
+                          color: Colors.grey[900],
+                          thickness: 1,
+                        ),
+                        createTextWithImageIcon(
+                            "assets/death.png", "Gestorben: 2000"),
+                      ],
                     ),
                   ),
                 ),
@@ -84,7 +139,7 @@ class _UIState extends State<UI> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Colors.black,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -100,24 +155,44 @@ class _UIState extends State<UI> {
           ),
         ],
         //currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: noRisk,
+        unselectedItemColor: Colors.white,
         //onTap: _onItemTapped,
       ),
     );
   }
-  Widget createTextWithIcon(IconData icon, String text){
+
+  Widget createTextWithIcon(IconData icon, String text) {
     return Row(
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 15),
-          child: Icon(icon, color: Colors.white,),
+          child: Icon(
+            icon,
+            color: Colors.white,
+          ),
         ),
         Text(
           text,
-          style: TextStyle(
+          style: TextStyle(color: Colors.white, fontSize: 22),
+        )
+      ],
+    );
+  }
+
+  Widget createTextWithImageIcon(String icon, String text) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15),
+          child: ImageIcon(
+            AssetImage(icon),
             color: Colors.white,
-            fontSize: 22
           ),
+        ),
+        Text(
+          text,
+          style: TextStyle(color: Colors.white, fontSize: 22),
         )
       ],
     );
