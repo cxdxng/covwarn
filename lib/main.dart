@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'package:covwarn/home.dart';
-import 'package:covwarn/info.dart';
 import 'package:covwarn/map.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(
       initialRoute: "/",
       routes: {
         "/": (context) => UI(),
+        "/home": (context) => HomeScreen(),
+        "/map": (context) => HeatMap(),
       },
     ));
 
@@ -15,42 +18,43 @@ class UI extends StatefulWidget {
   _UIState createState() => _UIState();
 }
 
+
+
 class _UIState extends State<UI> {
-  int _selectedIndex = 0;
+
+  void fetchData()async{
+    var response = await http.get(Uri.https("api.corona-zahlen.org","/districts/05315"));
+    Map<String, dynamic> jsonResponse = await jsonDecode(response.body);
+    Future.delayed(Duration(seconds: 2), (){
+      Navigator.pushReplacementNamed(context, "/home", arguments: {"cachedData": jsonResponse});
+    });
+       
+  }
   @override
   Widget build(BuildContext context) {
-    List<Widget> items = [HomeScreen(), HeatMap(), AboutScreen()];
-
+    
+    fetchData();
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: items[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Covwarn",
+                style: TextStyle(
+                  fontSize: 80,
+                  fontWeight: FontWeight.w900
+                ),
+              ),
+              SizedBox(height: 300),
+              Transform.scale(child: CircularProgressIndicator(strokeWidth: 3,), scale: 2,)
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
-            label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline),
-            label: 'About',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xff6BAC66),
-        unselectedItemColor: Colors.white,
-        onTap: _onItemTapped,
+        ),
       ),
     );
-  }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    
   }
 }

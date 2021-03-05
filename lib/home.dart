@@ -1,23 +1,32 @@
-import 'package:covwarn/map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+
+    Map data = ModalRoute.of(context).settings.arguments;
+    
+    Map extractedData = data["cachedData"];
+    Map mainData = extractedData["data"];
+    Map townData = mainData["05315"];
+    Map timeData = extractedData["meta"];
+    String updated = timeData["lastUpdate"].toString();
+    
+    String lastUpdate = formatTime(updated);
+
+    
+
     Color noRisk = Color(0xff6BAC66);
     Color slightRisk = Color(0xffF99246);
     Color infection = Color(0xffBF4448);
     String town = "Köln";
 
-    List<Widget> items = [
-      HeatMap()
-    ];
     
 
     return Scaffold(
@@ -28,10 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
+              // Title text
+
               Text(
                 "Covwarn 2021",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
               ),
+
+              // Risc Card
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -56,10 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 40,
                                     color: Colors.white),
                               ),
-                              Icon(
-                                Icons.info_sharp,
-                                color: Colors.white,
-                              ),
                             ],
                           ),
                           SizedBox(height:40),
@@ -78,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             thickness: 1,
                           ),
                           createTextWithIcon(
-                              Icons.update_sharp, "Aktualisiert: Heute 11:11"),
+                              Icons.update_sharp, "Aktualisiert: $lastUpdate"),
                         ],
                       ),
                     ),
@@ -86,15 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 30,
               ),
+
+              // Overwiew Card
               Center(
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   margin: EdgeInsets.zero,
-                  color: Colors.grey[700],
+                  color: Colors.black,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -109,45 +121,87 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
-                            
-
-                            Icon(
-                              Icons.remove_red_eye_sharp,
-                              color: Colors.white,
-                            )
                           ],
                         ),
                         SizedBox(
                           height: 40,
                         ),
-                        createTextWithIcon(Icons.accessibility_new_rounded,
-                            "7-tage Inzidenz: 63"),
+                        createTextWithIcon(Icons.trending_up_sharp,
+                            "7-tage Inzidenz: ${double.parse(townData["weekIncidence"].toString()).toStringAsFixed(2)}"),
                         Divider(
                           height: 40,
-                          color: Colors.grey[900],
-                          thickness: 1,
-                        ),
-                        createTextWithImageIcon(
-                            "assets/death.png", "Gestorben: 2.000"),
-                        Divider(
-                          height: 40,
-                          color: Colors.grey[900],
+                          color: Colors.white,
                           thickness: 1,
                         ),
 
+                        createTextWithIcon(Icons.masks_outlined, "Infektionen: ${townData["cases"]}"),
+
+                        Divider(
+                          height: 40,
+                          color: Colors.white,
+                          thickness: 1,
+                        ),
                         createTextWithImageIcon(
-                            "assets/syringe.png", "Impfungen: 18.000"),
+                            "assets/death.png", "Gestorben: ${townData["deaths"]}"),
+                        
+
+                        
                       ],
                     ),
                   ),
                 ),
               ),
+
+              SizedBox(height: 30),
+
+              // Show Map
+              Center(
+                child: Card(
+                
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  margin: EdgeInsets.zero,
+                  color: Colors.black,
+                  child: InkWell(
+                    onTap: () => Navigator.pushNamed(context, "/map"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Karte anzeigen",
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                            )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+
+
             ],
           ),
         ),
       ),
       
     );
+  }
+
+  String formatTime(String time){
+    DateFormat format = DateFormat('dd.MM.yyyy, HH:mm');
+    DateTime updateTime = DateTime.parse(time);
+    return format.format(updateTime);
   }
 
   Widget createTextWithIcon(IconData icon, String text) {
