@@ -19,6 +19,8 @@ class _UIState extends State<UI> {
     Color slightRisk = Color(0xffF99246);
     Color infection = Color(0xffBF4448);
     String town = "Köln";
+    int deaths = 200;
+    int caseCount = 69;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -105,9 +107,9 @@ class _UIState extends State<UI> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Übersicht ($town)",
+                              "Tagesübersicht ($town)",
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
@@ -121,14 +123,14 @@ class _UIState extends State<UI> {
                           height: 20,
                         ),
                         createTextWithIcon(Icons.accessibility_new_rounded,
-                            "7-tage Inzidenz: 63"),
+                            "7-tage Inzidenz: $caseCount"),
                         Divider(
                           height: 40,
                           color: Colors.grey[900],
                           thickness: 1,
                         ),
                         createTextWithImageIcon(
-                            "assets/death.png", "Gestorben: 2000"),
+                            "assets/death.png", "Verstorben: $deaths"),
                       ],
                     ),
                   ),
