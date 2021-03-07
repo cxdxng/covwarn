@@ -3,6 +3,7 @@ import 'package:covwarn/home.dart';
 import 'package:covwarn/map.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 void main() => runApp(MaterialApp(
       initialRoute: "/",
@@ -22,11 +23,30 @@ class UI extends StatefulWidget {
 
 class _UIState extends State<UI> {
 
+  String koeln = "05315";
+  String bonn = "05314";
+  String frankfurt = "06412";
+  String hannover = "03241";
+  String freiburg = "08311";
+  String muenchen = "09162";
+
+  
+
   void fetchData()async{
-    var response = await http.get(Uri.https("api.corona-zahlen.org","/districts/05315"));
+    String town = koeln;
+    Response response = await http.get(Uri.https("api.corona-zahlen.org","/districts/$town"));
     Map<String, dynamic> jsonResponse = await jsonDecode(response.body);
+
+    Map mainData = jsonResponse["data"];
+    Map extractedData = mainData[town];
+    Map timeData = jsonResponse["meta"];
+
+    //print(jsonResponse);
     Future.delayed(Duration(seconds: 2), (){
-      Navigator.pushReplacementNamed(context, "/home", arguments: {"cachedData": jsonResponse});
+      Navigator.pushReplacementNamed(context, "/home", arguments: {
+        "mainData": extractedData,
+        "updateTime": timeData,
+      });
     });
        
   }

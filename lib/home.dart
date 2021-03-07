@@ -12,20 +12,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Map data = ModalRoute.of(context).settings.arguments;
     
-    Map extractedData = data["cachedData"];
-    Map mainData = extractedData["data"];
-    Map townData = mainData["05315"];
-    Map timeData = extractedData["meta"];
+    var mainData = data["mainData"];
+    var timeData = data["updateTime"];
     String updated = timeData["lastUpdate"].toString();
-    
     String lastUpdate = formatTime(updated);
-
-    
 
     Color noRisk = Color(0xff6BAC66);
     Color slightRisk = Color(0xffF99246);
     Color infection = Color(0xffBF4448);
-    String town = "Köln";
 
     
 
@@ -96,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
 
               // Overwiew Card
@@ -114,12 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Übersicht ($town)",
-                              style: TextStyle(
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                            Expanded(
+                              child: Text(
+                                "Übersicht (${mainData["name"]})",
+                                style: TextStyle(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
                             ),
                           ],
                         ),
@@ -127,14 +123,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 40,
                         ),
                         createTextWithIcon(Icons.trending_up_sharp,
-                            "7-tage Inzidenz: ${double.parse(townData["weekIncidence"].toString()).toStringAsFixed(2)}"),
+                            "7-tage Inzidenz: ${double.parse(mainData["weekIncidence"].toString()).toStringAsFixed(2)}"),
                         Divider(
                           height: 40,
                           color: Colors.white,
                           thickness: 1,
                         ),
 
-                        createTextWithIcon(Icons.masks_outlined, "Infektionen: ${townData["cases"]}"),
+                        createTextWithIcon(Icons.masks_outlined, "Infektionen: ${mainData["cases"]}"),
 
                         Divider(
                           height: 40,
@@ -142,9 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           thickness: 1,
                         ),
                         createTextWithImageIcon(
-                            "assets/death.png", "Gestorben: ${townData["deaths"]}"),
+                            "assets/death.png", "Todesfälle: ${mainData["deaths"]}"),
                         
 
+                        // Other Widgets here
                         
                       ],
                     ),
@@ -152,15 +149,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              SizedBox(height: 30),
+              SizedBox(height: 20),
 
               // Show Map
               Center(
                 child: Card(
                 
                   elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   margin: EdgeInsets.zero,
                   color: Colors.black,
                   child: InkWell(
@@ -188,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-
+              // Other Widgets here
 
             ],
           ),
