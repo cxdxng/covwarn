@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:platform_alert_dialog/platform_alert_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -7,6 +8,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  Color noRisk = Color(0xff6BAC66);
+  Color slightRisk = Color(0xffF99246);
+  Color infection = Color(0xffBF4448);
+
   @override
   Widget build(BuildContext context) {
 
@@ -17,81 +23,74 @@ class _HomeScreenState extends State<HomeScreen> {
     String updated = timeData["lastUpdate"].toString();
     String lastUpdate = formatTime(updated);
 
-    Color noRisk = Color(0xff6BAC66);
-    Color slightRisk = Color(0xffF99246);
-    Color infection = Color(0xffBF4448);
-
+    
     
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
+      appBar: AppBar(
+        title:Text(
+          "Covwarn 2021",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
-              // Title text
-
-              Text(
-                "Covwarn 2021",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
-              ),
-
               // Risc Card
               Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Card(
-                    color: noRisk,
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.zero,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Risiko niedrig",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 40,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height:40),
-                          createTextWithIcon(Icons.coronavirus_sharp,
-                              "Keine Begegnungen (24 Std.)"),
-                          Divider(
-                            height: 40,
-                            color: Colors.grey[200],
-                            thickness: 1,
-                          ),
-                          createTextWithIcon(
-                              Icons.location_on, "Gegend sicher"),
-                          Divider(
-                            height: 40,
-                            color: Colors.grey[200],
-                            thickness: 1,
-                          ),
-                          createTextWithIcon(
-                              Icons.update_sharp, "Aktualisiert: $lastUpdate"),
-                        ],
-                      ),
+                child: Card(
+                  color: noRisk,
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  margin: EdgeInsets.zero,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    
+                    child: Column(
+                      
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Risiko niedrig",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 40,
+                                  color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height:20),
+                        createTextWithIcon(Icons.coronavirus_sharp,
+                            "Keine Begegnungen (24 Std.)"),
+                        Divider(
+                          height: 40,
+                          color: Colors.grey[200],
+                          thickness: 1,
+                        ),
+                        createTextWithIcon(
+                            Icons.location_on, "Gegend sicher"),
+                        Divider(
+                          height: 40,
+                          color: Colors.grey[200],
+                          thickness: 1,
+                        ),
+                        createTextWithIcon(
+                            Icons.update_sharp, "Aktualisiert: $lastUpdate"),
+                      ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
 
               // Overwiew Card
               Center(
@@ -119,9 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 40,
-                        ),
+                        SizedBox(height: 20),
                         createTextWithIcon(Icons.trending_up_sharp,
                             "7-tage Inzidenz: ${double.parse(mainData["weekIncidence"].toString()).toStringAsFixed(2)}"),
                         Divider(
@@ -148,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
               SizedBox(height: 20),
 
               // Show Map
@@ -184,6 +180,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
+              
+
+              SizedBox(height: 10),
+
+              Center(
+                child: Card(
+                
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  margin: EdgeInsets.zero,
+                  color: infection,
+                  child: InkWell(
+                    onTap: (){
+                      confirmationPopup(context);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Infektion melden",
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                            )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              
+
+
               // Other Widgets here
 
             ],
@@ -198,6 +235,36 @@ class _HomeScreenState extends State<HomeScreen> {
     DateFormat format = DateFormat('dd.MM.yyyy, HH:mm');
     DateTime updateTime = DateTime.parse(time);
     return format.format(updateTime);
+  }
+
+  confirmationPopup(BuildContext dialogContext) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return PlatformAlertDialog(
+          title: Text("Sind Sie sicher?", style: TextStyle(fontSize: 30),),
+          content: SingleChildScrollView(
+            child: Text("Dieser Vorgang kann nicht Rückgängig gemacht weden", style: TextStyle(fontSize: 20),),
+          ),
+          actions: <Widget>[
+            PlatformDialogAction(
+              
+              child: Text("Nein, ich bin Negativ"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            PlatformDialogAction(
+              child: Text("Ja, ich bin Infiziert"),
+              actionType: ActionType.Destructive,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget createTextWithIcon(IconData icon, String text) {
