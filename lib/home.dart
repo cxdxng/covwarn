@@ -156,7 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.zero,
                   color: Colors.black,
                   child: InkWell(
-                    onTap: () => Navigator.pushNamed(context, "/map"),
+                    //onTap: () => Navigator.pushNamed(context, "/map"),
+                    onTap: () => Navigator.pushNamed(context, "/info"),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Row(

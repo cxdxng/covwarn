@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:covwarn/home.dart';
+import 'package:covwarn/info.dart';
 import 'package:covwarn/map.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ void main() => runApp(MaterialApp(
         "/": (context) => UI(),
         "/home": (context) => HomeScreen(),
         "/map": (context) => HeatMap(),
+        "/info": (context) => AboutScreen(),
       },
     ));
 
