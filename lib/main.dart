@@ -21,10 +21,7 @@ class UI extends StatefulWidget {
   _UIState createState() => _UIState();
 }
 
-
-
 class _UIState extends State<UI> {
-
   String koeln = "05315";
   String bonn = "05314";
   String frankfurt = "06412";
@@ -32,11 +29,10 @@ class _UIState extends State<UI> {
   String freiburg = "08311";
   String muenchen = "09162";
 
-  
-
-  void fetchData()async{
+  void fetchData() async {
     String town = koeln;
-    Response response = await http.get(Uri.https("api.corona-zahlen.org","/districts/$town"));
+    Response response =
+        await http.get(Uri.https("api.corona-zahlen.org", "/districts/$town"));
     Map<String, dynamic> jsonResponse = await jsonDecode(response.body);
 
     Map mainData = jsonResponse["data"];
@@ -44,17 +40,16 @@ class _UIState extends State<UI> {
     Map timeData = jsonResponse["meta"];
 
     //print(jsonResponse);
-    Future.delayed(Duration(seconds: 2), (){
+    Future.delayed(Duration(seconds: 2), () {
       Navigator.pushReplacementNamed(context, "/home", arguments: {
         "mainData": extractedData,
         "updateTime": timeData,
       });
     });
-       
   }
+
   @override
   Widget build(BuildContext context) {
-    
     fetchData();
     return Scaffold(
       body: SafeArea(
@@ -64,19 +59,19 @@ class _UIState extends State<UI> {
             children: [
               Text(
                 "Covwarn",
-                style: TextStyle(
-                  fontSize: 80,
-                  fontWeight: FontWeight.w900
-                ),
+                style: TextStyle(fontSize: 80, fontWeight: FontWeight.w900),
               ),
               SizedBox(height: 300),
-              Transform.scale(child: CircularProgressIndicator(strokeWidth: 3,), scale: 2,)
+              Transform.scale(
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                ),
+                scale: 2,
+              )
             ],
           ),
         ),
       ),
     );
-
-    
   }
 }

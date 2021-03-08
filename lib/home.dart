@@ -8,30 +8,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   Color noRisk = Color(0xff6BAC66);
   Color slightRisk = Color(0xffF99246);
   Color infection = Color(0xffBF4448);
 
   @override
   Widget build(BuildContext context) {
-
     Map data = ModalRoute.of(context).settings.arguments;
-    
+
     var mainData = data["mainData"];
     var timeData = data["updateTime"];
     String updated = timeData["lastUpdate"].toString();
     String lastUpdate = formatTime(updated);
 
-    
-    
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title:Text(
+        title: Text(
           "Covwarn 2021",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: Colors.black),
+          style: TextStyle(
+              fontSize: 30, fontWeight: FontWeight.w900, color: Colors.black),
         ),
         backgroundColor: Colors.white,
       ),
@@ -45,15 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Center(
                 child: Card(
                   color: noRisk,
-                  elevation: 10,
+                  elevation: 2,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   margin: EdgeInsets.zero,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    
                     child: Column(
-                      
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -68,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height:20),
+                        SizedBox(height: 20),
                         createTextWithIcon(Icons.coronavirus_sharp,
                             "Keine Begegnungen (24 Std.)"),
                         Divider(
@@ -76,8 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.grey[200],
                           thickness: 1,
                         ),
-                        createTextWithIcon(
-                            Icons.location_on, "Gegend sicher"),
+                        createTextWithIcon(Icons.location_on, "Gegend sicher"),
                         Divider(
                           height: 40,
                           color: Colors.grey[200],
@@ -95,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
               // Overwiew Card
               Center(
                 child: Card(
-                  elevation: 10,
+                  elevation: 2,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   margin: EdgeInsets.zero,
@@ -127,19 +120,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           thickness: 1,
                         ),
 
-                        createTextWithIcon(Icons.masks_outlined, "Infektionen: ${mainData["cases"]}"),
+                        createTextWithIcon(Icons.masks_outlined,
+                            "Infektionen: ${mainData["cases"]}"),
 
                         Divider(
                           height: 40,
                           color: Colors.white,
                           thickness: 1,
                         ),
-                        createTextWithImageIcon(
-                            "assets/death.png", "Todesfälle: ${mainData["deaths"]}"),
-                        
+                        createTextWithImageIcon("assets/death.png",
+                            "Todesfälle: ${mainData["deaths"]}"),
 
                         // Other Widgets here
-                        
                       ],
                     ),
                   ),
@@ -150,14 +142,13 @@ class _HomeScreenState extends State<HomeScreen> {
               // Show Map
               Center(
                 child: Card(
-                
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   margin: EdgeInsets.zero,
                   color: Colors.black,
                   child: InkWell(
-                    //onTap: () => Navigator.pushNamed(context, "/map"),
-                    onTap: () => Navigator.pushNamed(context, "/info"),
+                    onTap: () => Navigator.pushNamed(context, "/map"),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Row(
@@ -173,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icon(
                             Icons.arrow_forward_ios_rounded,
                             color: Colors.white,
-                            )
+                          )
                         ],
                       ),
                     ),
@@ -181,19 +172,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              
-
               SizedBox(height: 10),
 
               Center(
                 child: Card(
-                
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   margin: EdgeInsets.zero,
                   color: infection,
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       confirmationPopup(context);
                     },
                     child: Padding(
@@ -211,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icon(
                             Icons.arrow_forward_ios_rounded,
                             color: Colors.white,
-                            )
+                          )
                         ],
                       ),
                     ),
@@ -219,20 +208,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              
+              SizedBox(height: 10),
 
+              // Risc detection Active card
+              Center(
+                child: Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  margin: EdgeInsets.zero,
+                  color: Colors.black,
+                  child: InkWell(
+                    onTap: () => Navigator.pushNamed(context, "/info"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Risiko-Ermittlung aktiv",
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
 
               // Other Widgets here
-
             ],
           ),
         ),
       ),
-      
     );
   }
 
-  String formatTime(String time){
+  String formatTime(String time) {
     DateFormat format = DateFormat('dd.MM.yyyy, HH:mm');
     DateTime updateTime = DateTime.parse(time);
     return format.format(updateTime);
@@ -243,13 +262,18 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return PlatformAlertDialog(
-          title: Text("Sind Sie sicher?", style: TextStyle(fontSize: 30),),
+          title: Text(
+            "Sind Sie sicher?",
+            style: TextStyle(fontSize: 30),
+          ),
           content: SingleChildScrollView(
-            child: Text("Dieser Vorgang kann nicht Rückgängig gemacht weden", style: TextStyle(fontSize: 20),),
+            child: Text(
+              "Dieser Vorgang kann nicht Rückgängig gemacht weden",
+              style: TextStyle(fontSize: 20),
+            ),
           ),
           actions: <Widget>[
             PlatformDialogAction(
-              
               child: Text("Nein, ich bin Negativ"),
               onPressed: () {
                 Navigator.of(context).pop();
