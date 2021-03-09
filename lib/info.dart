@@ -63,7 +63,7 @@ class AboutScreen extends StatelessWidget {
                   discovery();
                 },
                 child: Text(
-                  'Ermittlung starten',
+                  'Start detection',
                 ),
               ),
             ),
@@ -73,7 +73,7 @@ class AboutScreen extends StatelessWidget {
                 Nearby().stopDiscovery();
               },
               color: Colors.red,
-              child: Text("Ermittlung beenden"),
+              child: Text("Stop detection"),
             )
           ],
         ),
