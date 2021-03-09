@@ -226,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Risiko-Ermittlung aktiv",
+                            "Risiko-Ermittlung",
                             style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -278,6 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+              
             ),
             PlatformDialogAction(
               child: Text("Ja, ich bin Infiziert"),

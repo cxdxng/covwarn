@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'package:covwarn/DatabaseHelper.dart';
 import 'package:covwarn/home.dart';
 import 'package:covwarn/info.dart';
 import 'package:covwarn/map.dart';
@@ -28,6 +30,10 @@ class _UIState extends State<UI> {
   String hannover = "03241";
   String freiburg = "08311";
   String muenchen = "09162";
+
+  String getLocation(){
+    DatabaseHelper().getAllData();
+  }
 
   void fetchData() async {
     String town = koeln;

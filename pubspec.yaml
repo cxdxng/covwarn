@@ -27,6 +27,9 @@ dependencies:
   intl: ^0.17.0
   platform_alert_dialog: ^1.0.0+2
   nearby_connections: ^2.0.2
+  sqflite: ^2.0.0+2
+  path: ^1.8.0
+  path_provider: ^2.0.1
 
   # For Map
   google_maps_flutter_heatmap: ^0.1.1+2
